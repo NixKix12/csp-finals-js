@@ -1,24 +1,124 @@
-# Compiled class file
-*.class
+// Global variables
+var faveNames = []; // List to store favorite names
+var faveImages = []; // List to store favorite image URLs
+var currentIndex = 0; // Index to track the current favorite item
 
-# Log file
-*.log
+// Event handler for the chooser button to navigate to screen 2
+onEvent("chooserBtn", "click", function() {
+    setScreen("screen2");
+});
 
-# BlueJ files
-*.ctxt
+// Event handler for the scroller button to navigate to screen 3
+onEvent("ScrollerBtn", "click", function() {
+    setScreen("screen3");
+});
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+// Event handler for the math button to navigate to screen 4
+onEvent("mathBtn", "click", function() {
+    setScreen("screen4");
+});
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+// Event handler for finding a restaurant recommendation
+onEvent("findRecButton", "click", function() {
+    updateRecommendation(); // Call the function to update the recommendation
+});
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+// Event handler for adding a favorite item
+onEvent("addFavesBtn", "click", function() {
+    // Collect favorite item name and image URL
+    var faveName = getText("faveNameInput"); // Assuming there's an input field for name
+    var faveImage = getText("faveImageInput"); // Assuming there's an input field for image URL
+    
+    // Append to the lists
+    faveNames.push(faveName);
+    faveImages.push(faveImage);
+    
+    updateFaveOutput(); // Update the display of favorites
+});
+
+// Event handler for the right scroll button
+onEvent("rtScrollBtn", "click", function() {
+    // Increment index if it's within bounds
+    if (currentIndex < faveNames.length - 1) {
+        currentIndex++;
+        updateFaveOutput(); // Update the display
+    }
+});
+
+// Event handler for the left scroll button
+onEvent("leftScrollBtn", "click", function() {
+    // Decrement index if it's within bounds
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateFaveOutput(); // Update the display
+    }
+});
+
+// Event handler for the calculate operation button
+onEvent("calculateOpButton", "click", function() {
+    var operation = getText("operationInput"); // Assuming there's an input field for operation
+    if (operation === "evens") {
+        calcEvens();
+    } else if (operation === "multiples") {
+        calcMultiples();
+    } else if (operation === "sum") {
+        calcSum();
+    }
+});
+
+// Function to update restaurant recommendation based on user input
+function updateRecommendation() {
+    var foodGenre = getText("foodGenreInput"); // Assuming there's an input field for food genre
+    var budget = getNumber("budgetInput"); // Assuming there's a number input field for budget
+    var recommendation = "";
+
+    // Determine recommendation based on input
+    if (foodGenre === "Italian" && budget <= 20) {
+        recommendation = "Pasta Place";
+    } else if (foodGenre === "Mexican" && budget <= 15) {
+        recommendation = "Taco Town";
+    } else {
+        recommendation = "No recommendations available.";
+    }
+
+    // Display recommendation
+    setText("recommendationOutputBox", recommendation); // Assuming there's a label for output
+}
+
+// Function to update the displayed favorite item
+function updateFaveOutput() {
+    if (currentIndex < faveNames.length) {
+        setText("myFavesLabel", faveNames[currentIndex]); // Display favorite name
+        setProperty("imageBox", "image", faveImages[currentIndex]); // Display favorite image
+    }
+}
+
+// Function to calculate even numbers from 1 to 100
+function calcEvens() {
+    var nums = [];
+    for (var i = 1; i <= 100; i++) {
+        if (i % 2 === 0) {
+            nums.push(i); // Append even number to list
+        }
+    }
+    setText("text_area4", nums.join("\n")); // Display even numbers
+}
+
+// Function to calculate multiples of 5 from 1 to 100
+function calcMultiples() {
+    var nums = [];
+    for (var i = 1; i <= 100; i++) {
+        if (i % 5 === 0) {
+            nums.push(i); // Append multiple of 5 to list
+        }
+    }
+    setText("text_area4", nums.join("\n")); // Display multiples of 5
+}
+
+// Function to calculate the sum of numbers from 1 to 100
+function calcSum() {
+   } var sum = 0;
+    for (var i = 1; i <= 100; i++) {
+        sum += i; // Add each number to sum
+    }
+    setText("text_area");
